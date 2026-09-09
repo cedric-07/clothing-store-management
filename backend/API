@@ -1,0 +1,872 @@
+# Boutique POS — API Endpoints
+
+Base URL :
+
+```text
+http://localhost:8080/api
+```
+
+Frontend autorisé :
+
+```text
+http://localhost:5173
+```
+
+---
+
+# 1. USERS
+
+## Créer un utilisateur
+
+```http
+POST /api/users
+```
+
+Exemple :
+
+```json
+{
+  "username": "admin",
+  "password": "admin123",
+  "firstName": "Admin",
+  "lastName": "Boutique",
+  "role": "ADMIN"
+}
+```
+
+## Liste des utilisateurs
+
+```http
+GET /api/users
+```
+
+## Utilisateur par ID
+
+```http
+GET /api/users/{id}
+```
+
+Exemple :
+
+```http
+GET /api/users/1
+```
+
+## Utilisateur par username
+
+```http
+GET /api/users/username/{username}
+```
+
+Exemple :
+
+```http
+GET /api/users/username/admin
+```
+
+## Activer un utilisateur
+
+```http
+PATCH /api/users/{id}/activate
+```
+
+## Désactiver un utilisateur
+
+```http
+PATCH /api/users/{id}/deactivate
+```
+
+---
+
+# 2. BRANDS
+
+## Créer une marque
+
+```http
+POST /api/brands/create
+```
+
+```json
+{
+  "name": "Nike"
+}
+```
+
+---
+
+# 3. CATEGORIES
+
+Dans ton projet actuel, la création d'une catégorie se trouve dans `BrandController`.
+
+## Créer une catégorie
+
+```http
+POST /api/brands/category/create
+```
+
+```json
+{
+  "name": "T-Shirts"
+}
+```
+
+---
+
+# 4. PRODUCTS
+
+## Créer un produit
+
+```http
+POST /api/products/create
+```
+
+```json
+{
+  "name": "T-Shirt Nike",
+  "description": "T-shirt Nike en coton",
+  "category": {
+    "id": 1
+  },
+  "brand": {
+    "id": 1
+  },
+  "purchasePrice": 25000,
+  "sellingPrice": 50000,
+  "active": true
+}
+```
+
+## Créer plusieurs produits
+
+```http
+POST /api/products/createall
+```
+
+```json
+[
+  {
+    "name": "T-Shirt Nike",
+    "description": "T-shirt Nike",
+    "category": {
+      "id": 1
+    },
+    "brand": {
+      "id": 1
+    },
+    "purchasePrice": 25000,
+    "sellingPrice": 50000,
+    "active": true
+  },
+  {
+    "name": "Jean Levi's",
+    "description": "Jean bleu",
+    "category": {
+      "id": 2
+    },
+    "brand": {
+      "id": 2
+    },
+    "purchasePrice": 60000,
+    "sellingPrice": 100000,
+    "active": true
+  }
+]
+```
+
+## Liste des produits
+
+```http
+GET /api/products
+```
+
+## Produit par ID
+
+```http
+GET /api/products/{id}
+```
+
+## Produits actifs
+
+```http
+GET /api/products/active
+```
+
+## Recherche produit
+
+```http
+GET /api/products/search?name={name}
+```
+
+Exemple :
+
+```http
+GET /api/products/search?name=nike
+```
+
+## Produits par catégorie
+
+```http
+GET /api/products/category/{categoryId}
+```
+
+## Produits par marque
+
+```http
+GET /api/products/brand/{brandId}
+```
+
+## Modifier un produit
+
+```http
+PUT /api/products/{id}
+```
+
+## Activer un produit
+
+```http
+PATCH /api/products/{id}/activate
+```
+
+## Désactiver un produit
+
+```http
+PATCH /api/products/{id}/deactivate
+```
+
+---
+
+# 5. PRODUCT VARIANTS
+
+## Créer une variante
+
+```http
+POST /api/product-variants/product/{productId}/create
+```
+
+Exemple :
+
+```http
+POST /api/product-variants/product/1/create
+```
+
+```json
+{
+  "sku": "NIKE-TS-NOIR-M",
+  "barcode": "100000000001",
+  "size": "M",
+  "color": "Noir",
+  "quantity": 25,
+  "minimumStock": 5,
+  "active": true
+}
+```
+
+## Liste des variantes
+
+```http
+GET /api/product-variants
+```
+
+## Variante par ID
+
+```http
+GET /api/product-variants/{id}
+```
+
+## Variantes d'un produit
+
+```http
+GET /api/product-variants/product/{productId}
+```
+
+## Recherche par barcode
+
+```http
+GET /api/product-variants/barcode/{barcode}
+```
+
+Exemple :
+
+```http
+GET /api/product-variants/barcode/100000000001
+```
+
+## Recherche par SKU
+
+```http
+GET /api/product-variants/sku/{sku}
+```
+
+## Produits en stock faible
+
+```http
+GET /api/product-variants/low-stock
+```
+
+## Définir directement le stock
+
+```http
+PATCH /api/product-variants/{id}/update-stock?quantity={quantity}
+```
+
+Exemple :
+
+```http
+PATCH /api/product-variants/1/update-stock?quantity=30
+```
+
+## Ajouter au stock
+
+```http
+PATCH /api/product-variants/{id}/add-stock?quantity={quantity}
+```
+
+Exemple :
+
+```http
+PATCH /api/product-variants/1/add-stock?quantity=10
+```
+
+## Retirer du stock
+
+```http
+PATCH /api/product-variants/{id}/remove-stock?quantity={quantity}
+```
+
+## Activer une variante
+
+```http
+PATCH /api/product-variants/{id}/activate
+```
+
+## Désactiver une variante
+
+```http
+PATCH /api/product-variants/{id}/deactivate
+```
+
+---
+
+# 6. CUSTOMERS
+
+## Créer un client
+
+```http
+POST /api/customers
+```
+
+```json
+{
+  "name": "Sarah Rakoto",
+  "phone": "0341234567",
+  "email": "sarah@gmail.com"
+}
+```
+
+## Client par ID
+
+```http
+GET /api/customers/{id}
+```
+
+Exemple :
+
+```http
+GET /api/customers/1
+```
+
+---
+
+# 7. SALES
+
+## Créer une vente
+
+```http
+POST /api/sales
+```
+
+Exemple de paiement simple :
+
+```json
+{
+  "customerId": 1,
+  "cashierId": 1,
+  "discount": 0,
+  "amountReceived": 100000,
+  "items": [
+    {
+      "productVariantId": 1,
+      "quantity": 2,
+      "discount": 0
+    }
+  ],
+  "payments": [
+    {
+      "paymentMethod": "CASH",
+      "amount": 100000,
+      "transactionReference": null
+    }
+  ]
+}
+```
+
+Exemple de paiement mixte :
+
+```json
+{
+  "customerId": 1,
+  "cashierId": 1,
+  "discount": 0,
+  "amountReceived": 100000,
+  "items": [
+    {
+      "productVariantId": 1,
+      "quantity": 2,
+      "discount": 0
+    }
+  ],
+  "payments": [
+    {
+      "paymentMethod": "CASH",
+      "amount": 40000,
+      "transactionReference": null
+    },
+    {
+      "paymentMethod": "MVOLA",
+      "amount": 60000,
+      "transactionReference": "MVOLA-938472"
+    }
+  ]
+}
+```
+
+## Liste des ventes
+
+```http
+GET /api/sales
+```
+
+## Vente par ID
+
+```http
+GET /api/sales/{id}
+```
+
+---
+
+# 8. CUSTOMER RETURNS
+
+## Retour d'un produit vendu
+
+```http
+PATCH /api/sales/{saleId}/return
+```
+
+Exemple :
+
+```http
+PATCH /api/sales/1/return
+```
+
+```json
+{
+  "saleItemId": 1,
+  "quantity": 1,
+  "userId": 1
+}
+```
+
+Effet attendu :
+
+```text
+Stock variant : +1
+
+StockMovement :
+movementType = RETURN
+quantity = +1
+reference = numéro de vente
+```
+
+---
+
+# 9. SUPPLIERS
+
+## Créer un fournisseur
+
+```http
+POST /api/suppliers
+```
+
+```json
+{
+  "name": "Textile Mada Distribution",
+  "phone": "0341122334",
+  "email": "contact@textilemada.mg",
+  "address": "Ankorondrano, Antananarivo"
+}
+```
+
+## Liste fournisseurs
+
+```http
+GET /api/suppliers
+```
+
+## Fournisseur par ID
+
+```http
+GET /api/suppliers/{id}
+```
+
+## Modifier fournisseur
+
+```http
+PUT /api/suppliers/{id}
+```
+
+Exemple :
+
+```json
+{
+  "name": "Textile Mada Distribution",
+  "phone": "0349988776",
+  "email": "contact@textilemada.mg",
+  "address": "Ankorondrano, Antananarivo"
+}
+```
+
+## Désactiver fournisseur
+
+```http
+PATCH /api/suppliers/{id}/deactivate
+```
+
+---
+
+# 10. PURCHASE ORDERS
+
+## Créer une commande fournisseur
+
+```http
+POST /api/purchase-orders
+```
+
+```json
+{
+  "supplierId": 1,
+  "createdBy": 1,
+  "items": [
+    {
+      "productVariantId": 1,
+      "quantity": 50,
+      "purchasePrice": 25000
+    },
+    {
+      "productVariantId": 2,
+      "quantity": 30,
+      "purchasePrice": 27000
+    }
+  ]
+}
+```
+
+La commande est créée avec :
+
+```text
+status = DRAFT
+```
+
+## Liste commandes fournisseurs
+
+```http
+GET /api/purchase-orders
+```
+
+## Commande par ID
+
+```http
+GET /api/purchase-orders/{id}
+```
+
+## Envoyer la commande
+
+```http
+PATCH /api/purchase-orders/{id}/submit
+```
+
+Évolution :
+
+```text
+DRAFT
+  ↓
+ORDERED
+```
+
+## Réception fournisseur
+
+```http
+PATCH /api/purchase-orders/{id}/receive
+```
+
+```json
+{
+  "userId": 1,
+  "items": [
+    {
+      "purchaseItemId": 1,
+      "quantityReceived": 20
+    }
+  ]
+}
+```
+
+Le système effectue :
+
+```text
+PurchaseItem.quantityReceived += 20
+
+ProductVariant.quantity += 20
+
+StockMovement:
+PURCHASE +20
+```
+
+Si toute la commande n'est pas reçue :
+
+```text
+PARTIALLY_RECEIVED
+```
+
+Sinon :
+
+```text
+RECEIVED
+```
+
+---
+
+# 11. INVENTORY
+
+Attention : dans ton controller actuel, l'URL est :
+
+```text
+/api/inventory
+```
+
+au singulier.
+
+## Créer un inventaire
+
+```http
+POST /api/inventory
+```
+
+```json
+{
+  "createdBy": 1
+}
+```
+
+Le système crée automatiquement les `InventoryItem` pour les variantes actives.
+
+## Liste des inventaires
+
+```http
+GET /api/inventory
+```
+
+## Inventaire par ID
+
+```http
+GET /api/inventory/{id}
+```
+
+Exemple :
+
+```http
+GET /api/inventory/1
+```
+
+## Compter une variante
+
+```http
+PATCH /api/inventory/{id}/count
+```
+
+Exemple :
+
+```http
+PATCH /api/inventory/1/count
+```
+
+```json
+{
+  "productVariantId": 1,
+  "countedQuantity": 22
+}
+```
+
+Exemple :
+
+```text
+expectedQuantity = 25
+countedQuantity  = 22
+difference       = -3
+```
+
+## Valider l'inventaire
+
+```http
+PATCH /api/inventory/{id}/validate
+```
+
+Exemple :
+
+```http
+PATCH /api/inventory/1/validate
+```
+
+Le système effectue automatiquement :
+
+```text
+Stock attendu : 25
+Stock compté  : 22
+
+ProductVariant.quantity
+25 → 22
+
+StockMovement
+INVENTORY_ADJUSTMENT
+quantity = -3
+```
+
+Puis :
+
+```text
+status = VALIDATED
+validatedAt = date actuelle
+```
+
+---
+
+# 12. FLUX PRINCIPAUX
+
+## Vente
+
+```text
+Customer
+   ↓
+Sale
+   ↓
+SaleItem
+   ↓
+Payment
+   ↓
+ProductVariant stock -
+   ↓
+StockMovement SALE
+```
+
+## Retour
+
+```text
+Sale
+   ↓
+SaleItem
+   ↓
+Return
+   ↓
+ProductVariant stock +
+   ↓
+StockMovement RETURN
+```
+
+## Achat fournisseur
+
+```text
+Supplier
+   ↓
+PurchaseOrder
+   ↓
+PurchaseItem
+   ↓
+Receive
+   ↓
+ProductVariant stock +
+   ↓
+StockMovement PURCHASE
+```
+
+## Inventaire
+
+```text
+Inventory
+   ↓
+InventoryItem
+   ↓
+Physical Count
+   ↓
+Difference
+   ↓
+Validate
+   ↓
+ProductVariant ajusté
+   ↓
+StockMovement INVENTORY_ADJUSTMENT
+```
+
+---
+
+# 13. ORDRE POUR INITIALISER UNE BASE VIDE
+
+```text
+1. User
+
+2. Category
+
+3. Brand
+
+4. Product
+
+5. ProductVariant
+
+6. Customer
+
+7. Supplier
+
+8. Sale / PurchaseOrder / Inventory
+```
+
+---
+
+# 14. STOCK MOVEMENT TYPES
+
+Les principaux mouvements utilisés dans l'application sont :
+
+```text
+SALE
+RETURN
+PURCHASE
+INVENTORY_ADJUSTMENT
+```
+
+Convention :
+
+```text
+SALE                  quantité négative
+RETURN                quantité positive
+PURCHASE              quantité positive
+INVENTORY_ADJUSTMENT  positive ou négative
+```
+
+Exemple historique :
+
+```text
+PURCHASE              +50    0 → 50
+SALE                   -2   50 → 48
+RETURN                 +1   48 → 49
+SALE                   -4   49 → 45
+INVENTORY_ADJUSTMENT   -2   45 → 43
+```
+
+Le principe du POS est que toute modification métier du stock doit pouvoir être expliquée par un mouvement de stock.
